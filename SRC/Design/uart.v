@@ -1,8 +1,8 @@
 `timescale 1ns / 1ps
 
-//`include "baud.v"
-//`include "u_rec.v"
-//`include "u_xmit.v"
+`include "baud.v"
+`include "u_rec.v"
+`include "u_xmit.v"
 
 
 module uart#(
@@ -16,14 +16,15 @@ module uart#(
 
     output uart_XMIT_dataH,xmit_doneH,rec_readyH,rec_busy,xmit_active,
     output [DATA_WIDTH-1:0] rec_dataH
+        //  ,output  uart_clk
 );
 
 wire uart_clk;
 
 baud  #(.BAUD(BAUD),.CLK_FREQ(CLK_FREQ))baud_mod(.sys_clk(sys_clk),.sys_rst_l(sys_rst_l),.uart_clk(uart_clk));
 
-u_rec #(.WIDTH(DATA_WIDTH))  receiver (.uart_clk(uart_clk),.sys_rst_l(sys_rst_l),.uart_REC_dataH(uart_REC_dataH),
-                .rec_readyH(rec_readyH),.rec_dataH(rec_dataH),.rec_busy(rec_busy));
+u_rec #(.DATA_WIDTH(DATA_WIDTH))  receiver (.uart_clk(uart_clk),.sys_rst_l(sys_rst_l),.uart_REC_dataH(uart_REC_dataH),
+                .rec_readyH(rec_readyH),.rec_dataH(rec_dataH),.rec_busyH(rec_busy));
 
 
 u_xmit #(.DATA_WIDTH(DATA_WIDTH)) transmitter(.uart_clk(uart_clk),.xmitH(xmitH),.xmit_dataH(xmit_dataH),
@@ -32,3 +33,4 @@ u_xmit #(.DATA_WIDTH(DATA_WIDTH)) transmitter(.uart_clk(uart_clk),.xmitH(xmitH),
 
 
 endmodule
+

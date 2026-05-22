@@ -2,7 +2,7 @@ module baud#(parameter BAUD =115200,CLK_FREQ=100_000_000)(
 input sys_clk,sys_rst_l,
 output reg uart_clk
     );
-    
+
 localparam CLK_DIV=(CLK_FREQ)/(BAUD*16);//(100_000_000/115200)=(868/16)=54..
 //localparam CLK_DIV=(CLK_FREQ)/(BAUD*16*2);
 reg [$clog2(CLK_DIV/2)-1:0]count;
@@ -20,6 +20,6 @@ reg [$clog2(CLK_DIV/2)-1:0]count;
                 else count<=count+1;
         end
     end
-    
-    
+
+
 endmodule
